@@ -41,10 +41,9 @@
             100% { transform: translate(-50%, -50%) perspective(1400px) rotateY(0deg); }
         }
         .hero-image-card { transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
-        .agenda-image-grid { transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
         .agenda-content { opacity: 0; transform: translateX(40px); transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s; }
-        .agenda-hero.is-revealed .agenda-image-grid { top: auto; left: 50%; transform: translateX(-50%); width: 802px; height: 190px; grid-template-columns: repeat(4, 190px); grid-template-rows: 190px; gap: 14px; }
-        .agenda-hero.is-revealed .hero-image-card { min-height: 0; }
+        .agenda-card { top: 0; left: var(--start-left); width: calc(25% - 12px); height: 100%; }
+        .agenda-hero.is-revealed .agenda-card { top: calc(100% - 190px); left: var(--end-left); width: 190px; height: 190px; }
         .agenda-hero.is-revealed .agenda-content { opacity: 1; transform: translateX(0); }
         .capability-card { perspective: 1200px; transition: box-shadow 0.2s ease, transform 0.2s ease; }
         .capability-card-inner { transform-style: preserve-3d; transition: transform 0.65s ease-in-out; }
@@ -430,6 +429,18 @@
             `).join('');
         }
 
+        function renderAgendaImageCards(images) {
+            const startLefts = ['0px', 'calc(25% + 4px)', 'calc(50% + 8px)', 'calc(75% + 12px)'];
+            return images.map((image, index) => {
+                const endLeft = `calc(50% - 401px + ${index * 204}px)`;
+                return `
+                    <div class="agenda-card hero-image-card absolute overflow-hidden rounded-2xl shadow-floating bg-slate-200" style="--start-left: ${startLefts[index] || '0px'}; --end-left: ${endLeft};">
+                        <img src="${ASSET_BASE + image}" alt="Tenaska discussion visual ${index + 1}" class="absolute inset-0 w-full h-full object-cover">
+                    </div>
+                `;
+            }).join('');
+        }
+
         function toggleCapabilityCard(index) {
             const card = document.getElementById(`capability-card-${index}`);
             if (!card) return;
@@ -447,8 +458,8 @@
                 const content = pageContent.agenda;
                 html += `
                     <div id="agenda-hero" class="agenda-hero relative w-full h-full fade-in overflow-hidden">
-                        <div class="agenda-image-grid absolute inset-y-0 left-0 z-10 grid grid-cols-4 gap-4 w-full h-full">
-                            ${renderHeroImageCards(content.heroImages || [], 'min-h-full')}
+                        <div class="agenda-image-grid absolute inset-0 z-10">
+                            ${renderAgendaImageCards(content.heroImages || [])}
                         </div>
                         <div class="agenda-content absolute inset-x-0 top-0 bottom-[225px] z-0 flex items-center">
                             <div class="w-full rounded-3xl border border-white/50 bg-white/70 backdrop-blur-sm shadow-2xl p-12">
@@ -478,13 +489,17 @@
                                         <div class="capability-face capability-front absolute inset-0 overflow-hidden rounded-3xl bg-slate-200">
                                             <img src="${ASSET_BASE + image}" alt="${card.title || `Capability ${index + 1}`}" class="absolute inset-0 w-full h-full object-cover">
                                         </div>
-                                        <div class="capability-face capability-back absolute inset-0 overflow-hidden rounded-3xl bg-gpc-navy/95 text-white p-8 flex flex-col">
-                                            <h3 class="text-gpc-orange text-2xl font-bold uppercase tracking-widest pb-5 mb-6 border-b border-white/20">${card.title || ''}</h3>
+                                        <div class="capability-face capability-back absolute inset-0 overflow-hidden rounded-3xl bg-white text-[#991a38] flex flex-col">
+                                            <div class="bg-black h-32 px-8 flex items-center border-b-4 border-[#991a38]">
+                                                <h3 class="text-[#991a38] text-2xl font-black uppercase tracking-widest leading-tight">${card.title || ''}</h3>
+                                            </div>
+                                            <div class="flex-1 p-8">
                                             ${Array.isArray(card.points) ? `
-                                                <ul class="list-disc list-outside pl-6 space-y-4 text-lg leading-snug font-medium text-slate-100 [&_li]:pl-1">
+                                                <ul class="list-disc list-outside pl-6 space-y-4 text-lg leading-snug font-bold text-[#991a38] [&_li]:pl-1">
                                                     ${card.points.map(point => `<li>${point}</li>`).join('')}
                                                 </ul>
-                                            ` : `<p class="text-2xl leading-snug font-medium">${card.desc || ''}</p>`}
+                                            ` : `<p class="text-2xl leading-snug font-bold text-[#991a38]">${card.desc || ''}</p>`}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
