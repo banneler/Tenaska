@@ -98,9 +98,16 @@
             <img src="GPC-White-1-1.webp" alt="GPC Logo" class="h-24 w-auto object-contain mb-6 drop-shadow-lg transition-transform hover:scale-105">
             <div class="w-16 h-1.5 bg-gpc-blue rounded-full"></div>
         </div>
-        <nav class="flex-1 px-4 py-2 flex flex-col gap-1 overflow-y-auto" id="nav-menu"></nav>
+        <nav class="flex-1 px-4 py-1.5 flex flex-col gap-0.5 overflow-y-auto" id="nav-menu"></nav>
+        <div class="px-4 py-3 border-t border-slate-700/50 shrink-0">
+            <p class="text-[10px] font-bold text-slate-500 uppercase tracking-widest mb-2">Version</p>
+            <div class="flex rounded-lg bg-slate-800/80 p-0.5">
+                <button id="version-key" type="button" class="flex-1 py-2 px-3 text-xs font-semibold rounded-md transition-colors text-slate-200 bg-gpc-blue">Key Concepts</button>
+                <button id="version-extended" type="button" class="flex-1 py-2 px-3 text-xs font-semibold rounded-md transition-colors text-slate-400">Extended</button>
+            </div>
+        </div>
         <div class="p-6 text-sm text-slate-400 border-t border-slate-700/50 flex justify-between items-center font-semibold shrink-0">
-            <span>GPC Strategic Accounts</span>
+            <span id="version-label">Key Concepts</span>
             <div class="flex items-center gap-3">
                 <button id="btn-fullscreen" type="button" class="p-1.5 rounded text-slate-400 hover:text-white hover:bg-white/10 transition-colors" title="Toggle full screen">
                     <svg id="icon-fullscreen" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1v4m0 0h-4m4 0l-5-5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4"></path></svg>
@@ -154,6 +161,12 @@
         let mapData = {};
         let navOrder = [];
         let pageContent = {};
+        let versionMode = 'key'; // 'key' | 'extended'
+        const KEY_CONCEPTS_NAV = ['mutual-of-omaha', 'national', 'layer2', 'ip-network', 'key-routes', 'why-gpc'];
+        function getFilteredNavOrder() {
+            if (versionMode === 'extended') return navOrder;
+            return KEY_CONCEPTS_NAV.filter(id => navOrder.includes(id));
+        }
 
         // --- SCALE TO FIT LOGIC ---
         function scaleApp() {
@@ -169,6 +182,7 @@
             startClock();
             setupScreensaver();
             setupFullscreen();
+            setupVersionToggle();
             buildKeyboard();
             setupAdminTrigger();
             
@@ -176,9 +190,8 @@
             
             // checkClientGreeting(); // Disabled: hardcoded Mutual of Omaha client experience
             buildNavigation();
-            if(navOrder.length > 0) {
-                updateView(navOrder[0]);
-            }
+            const order = getFilteredNavOrder();
+            if(order.length > 0) updateView(order[0]);
         }
 
         // --- FETCH JSON DATA ---
@@ -224,15 +237,15 @@
         function buildNavigation() {
             const nav = document.getElementById('nav-menu');
             nav.innerHTML = '';
-            navOrder.forEach((key, i) => {
+            getFilteredNavOrder().forEach((key, i) => {
                 const btnNum = i + 1;
                 const isGuest = key === 'guest';
                 
                 nav.innerHTML += `
-                    <button id="nav-btn-${key}" onclick="updateView('${key}')" class="w-full text-left px-5 py-3 rounded-lg border-l-4 border-transparent hover:bg-white/5 transition-all group flex items-center justify-between min-h-[56px] ${isGuest ? 'bg-white/5 border-l-gpc-blue' : ''}">
+                    <button id="nav-btn-${key}" onclick="updateView('${key}')" class="w-full text-left px-4 py-2.5 rounded-lg border-l-4 border-transparent hover:bg-white/5 transition-all group flex items-center justify-between min-h-[52px] ${isGuest ? 'bg-white/5 border-l-gpc-blue' : ''}">
                         <div class="flex flex-col pr-3 overflow-hidden">
                             ${isGuest ? '<span class="text-[10px] font-bold tracking-widest uppercase text-gpc-orange mb-1">Custom Briefing</span>' : ''}
-                            <h3 class="text-base font-semibold text-slate-200 group-hover:text-white truncate ${isGuest ? 'text-white' : ''}">${mapData[key].title}</h3>
+                            <h3 class="text-base font-semibold text-slate-200 group-hover:text-white truncate ${isGuest ? 'text-white' : ''}">${mapData[key].navLabel || mapData[key].title}</h3>
                         </div>
                         <div class="w-7 h-7 shrink-0 rounded-full border border-slate-600 flex items-center justify-center text-[10px] text-slate-400 group-hover:border-slate-300 group-hover:text-slate-200 font-semibold shadow-sm">${btnNum}</div>
                     </button>
@@ -244,8 +257,12 @@
             const data = mapData[viewId];
             if (!data) return;
             
-            navOrder.forEach(key => document.getElementById(`nav-btn-${key}`).classList.remove('nav-item-active'));
-            document.getElementById(`nav-btn-${viewId}`).classList.add('nav-item-active');
+            getFilteredNavOrder().forEach(key => {
+                const el = document.getElementById(`nav-btn-${key}`);
+                if (el) el.classList.remove('nav-item-active');
+            });
+            const activeBtn = document.getElementById(`nav-btn-${viewId}`);
+            if (activeBtn) activeBtn.classList.add('nav-item-active');
 
             const title = document.getElementById('view-title');
             const sub = document.getElementById('view-subtitle');
@@ -399,6 +416,7 @@
 
         // --- SCREENSAVER (ATTRACT MODE) ---
         let idleTime = 0;
+        const SCREENSAVER_TIMEOUT_SECONDS = 300;
         function setupScreensaver() {
             const ss = document.getElementById('screensaver');
             // Show on load (grid stays in layout so animation never stops)
@@ -406,7 +424,7 @@
 
             setInterval(() => {
                 idleTime++;
-                if (idleTime > 300) { // 5-minute idle timeout
+                if (idleTime >= SCREENSAVER_TIMEOUT_SECONDS) {
                     ss.classList.remove('screensaver-dismissed');
                     ss.classList.remove('opacity-0');
                     setTimeout(() => ss.classList.add('opacity-100'), 50);
@@ -478,14 +496,52 @@
             localStorage.removeItem('gpc-client');
             checkClientGreeting();
             buildNavigation();
-            updateView(navOrder[0]);
+            const order = getFilteredNavOrder();
+            if (order.length > 0) updateView(order[0]);
             closeAdmin();
+        }
+
+        // --- VERSION TOGGLE (KEY CONCEPTS / EXTENDED) ---
+        function setupVersionToggle() {
+            document.getElementById('version-key').addEventListener('click', () => setVersionMode('key'));
+            document.getElementById('version-extended').addEventListener('click', () => setVersionMode('extended'));
+        }
+
+        function setVersionMode(mode) {
+            const activeEl = document.querySelector('[id^="nav-btn-"].nav-item-active');
+            const currentViewId = activeEl ? activeEl.id.replace('nav-btn-', '') : null;
+            versionMode = mode;
+
+            document.getElementById('version-label').innerText = mode === 'key' ? 'Key Concepts' : 'Extended';
+            const keyButton = document.getElementById('version-key');
+            const extendedButton = document.getElementById('version-extended');
+
+            if (mode === 'key') {
+                keyButton.classList.add('text-slate-200', 'bg-gpc-blue');
+                keyButton.classList.remove('text-slate-400');
+                extendedButton.classList.remove('text-slate-200', 'bg-gpc-blue');
+                extendedButton.classList.add('text-slate-400');
+            } else {
+                extendedButton.classList.add('text-slate-200', 'bg-gpc-blue');
+                extendedButton.classList.remove('text-slate-400');
+                keyButton.classList.remove('text-slate-200', 'bg-gpc-blue');
+                keyButton.classList.add('text-slate-400');
+            }
+
+            buildNavigation();
+            const order = getFilteredNavOrder();
+            if (currentViewId && order.includes(currentViewId)) {
+                updateView(currentViewId);
+            } else if (order.length > 0) {
+                updateView(order[0]);
+            }
         }
 
         // --- HARDWARE BUTTONS & UTILS ---
         window.addEventListener('keydown', (e) => {
             const num = parseInt(e.key);
-            if (num > 0 && num <= 9 && num <= navOrder.length) updateView(navOrder[num - 1]);
+            const order = getFilteredNavOrder();
+            if (num > 0 && num <= 9 && num <= order.length) updateView(order[num - 1]);
         });
 
         function startClock() {
