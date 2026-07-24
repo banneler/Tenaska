@@ -42,8 +42,8 @@
         }
         .hero-image-card { transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
         .agenda-content { opacity: 0; transform: translateX(40px); transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s; }
-        .agenda-card { top: 0; left: var(--start-left); width: calc(25% - 12px); height: 100%; }
-        .agenda-hero.is-revealed .agenda-card { top: calc(100% - 190px); left: var(--end-left); width: 190px; height: 190px; }
+        .agenda-card { bottom: 0; left: var(--start-left); width: calc(25% - 12px); height: 100%; }
+        .agenda-hero.is-revealed .agenda-card { height: 370px; }
         .agenda-hero.is-revealed .agenda-content { opacity: 1; transform: translateX(0); }
         .capability-card { perspective: 1200px; transition: box-shadow 0.2s ease, transform 0.2s ease; }
         .capability-card-inner { transform-style: preserve-3d; transition: transform 0.65s ease-in-out; }
@@ -432,9 +432,8 @@
         function renderAgendaImageCards(images) {
             const startLefts = ['0px', 'calc(25% + 4px)', 'calc(50% + 8px)', 'calc(75% + 12px)'];
             return images.map((image, index) => {
-                const endLeft = `calc(50% - 401px + ${index * 204}px)`;
                 return `
-                    <div class="agenda-card hero-image-card absolute overflow-hidden rounded-2xl shadow-floating bg-slate-200" style="--start-left: ${startLefts[index] || '0px'}; --end-left: ${endLeft};">
+                    <div class="agenda-card hero-image-card absolute overflow-hidden rounded-2xl shadow-floating bg-slate-200" style="--start-left: ${startLefts[index] || '0px'};">
                         <img src="${ASSET_BASE + image}" alt="Tenaska discussion visual ${index + 1}" class="absolute inset-0 w-full h-full object-cover">
                     </div>
                 `;
@@ -461,7 +460,7 @@
                         <div class="agenda-image-grid absolute inset-0 z-10">
                             ${renderAgendaImageCards(content.heroImages || [])}
                         </div>
-                        <div class="agenda-content absolute inset-x-0 top-0 bottom-[225px] z-0 flex items-center">
+                        <div class="agenda-content absolute inset-x-0 top-0 bottom-[410px] z-0 flex items-center">
                             <div class="w-full rounded-3xl border border-white/50 bg-white/70 backdrop-blur-sm shadow-2xl p-12">
                                 <h3 class="text-gpc-orange text-xl font-bold uppercase tracking-widest mb-8">Meeting Agenda</h3>
                                 <ol class="list-decimal list-outside pl-8 space-y-6 text-slate-800 text-3xl leading-snug font-medium [&_li]:pl-2">
