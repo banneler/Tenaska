@@ -157,19 +157,35 @@
       "cards": [
         {
           "title": "Enterprise Lifecycle Management",
-          "desc": "Dedicated end-to-end account ownership across solution design, implementation and proactive post-install support."
+          "points": [
+            "Dedicated end-to-end account ownership from discovery through post-install support.",
+            "Solution design and implementation management aligned with long-term business goals.",
+            "Strategic roadmap development for redundancy, scalability and future network evolution."
+          ]
         },
         {
           "title": "24/7/365 Network Operations Center",
-          "desc": "Continuous monitoring, rapid incident response and proactive maintenance to protect uptime for critical operations."
+          "points": [
+            "Continuous monitoring, rapid incident response and proactive maintenance.",
+            "Operational continuity support for trading, scheduling, settlement and customer-facing systems.",
+            "Private Layer 2 and wavelength options for resilient critical-workflow transport."
+          ]
         },
         {
           "title": "Local Technical Engagement",
-          "desc": "Omaha and regional engineering and field technician support for responsive troubleshooting and maintenance."
+          "points": [
+            "Omaha and regional engineering engagement for high-touch technical planning.",
+            "Localized field technician support for troubleshooting, maintenance and rapid escalation.",
+            "Responsive account management grounded in GPC's regional operating footprint."
+          ]
         },
         {
-          "title": "Customized Consultation",
-          "desc": "Redundancy planning, private Layer 2 and wavelength design, data center access and scalability assessments for complex enterprise needs."
+          "title": "Strategic Regional Presence",
+          "points": [
+            "Core technical facilities and support hubs positioned across the Midwest.",
+            "Direct data center and cloud connectivity options for sensitive operational traffic.",
+            "400G-ready backbone capacity for large-load customers, project sites and future demand."
+          ]
         }
       ]
     },
