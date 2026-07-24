@@ -20,12 +20,19 @@
       "file": "tenaska-01.png",
       "logo": "tenaska_logo.png",
       "type": "map",
+      "agenda": [
+        "Align on Tenaska's operating priorities and near-term network considerations.",
+        "Review GPC's regional fiber footprint, Omaha metro reach and data center connectivity.",
+        "Discuss resilient transport options for critical energy operations and enterprise applications.",
+        "Map support expectations across design, implementation, escalation and post-install ownership.",
+        "Identify next steps for technical discovery, route review and solution planning."
+      ],
       "talkingPoints": [
-        "Dedicated Omaha metro fiber paths that support headquarters connectivity, local resilience and secure access to critical systems.",
-        "Private Layer 2 and wavelength options for trading, scheduling, settlement, SCADA/EMS and customer-facing portal workflows.",
-        "Direct data center and cloud connectivity that can keep sensitive operational traffic off the public internet where needed.",
-        "Diverse routing and 400G-ready backbone capacity for large-load energy customers, project sites and future data-center demand.",
-        "Local engineering, account support and 24/7 network monitoring for rapid escalation around always-on energy operations."
+        "Enterprise lifecycle management: dedicated end-to-end account ownership across solution design, implementation and proactive post-install support.",
+        "24/7/365 Network Operations Center: continuous monitoring, rapid incident response and proactive maintenance to protect uptime.",
+        "Local technical engagement: Omaha and regional engineering and field technician support for responsive troubleshooting and maintenance.",
+        "Customized consultation: redundancy planning, private Layer 2/wavelength design, data center access and scalability assessments for critical operations.",
+        "Strategic regional presence: Midwest fiber assets, core facilities and support hubs positioned for localized account management and rapid response."
       ],
       "stats": [
         { "label": "Metro Fiber", "value": "800+ Miles", "color": "text-gpc-green" },

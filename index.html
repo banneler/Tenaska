@@ -33,6 +33,11 @@
         
         .key { transition: all 0.1s; cursor: pointer; user-select: none; }
         .key:active { transform: scale(0.95); background-color: #CBD5E1; }
+        .flip-card { perspective: 1800px; }
+        .flip-card-inner { transition: transform 0.6s ease; transform-style: preserve-3d; }
+        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
+        .flip-card-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .flip-card-back { transform: rotateY(180deg); }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
         .screensaver-dismissed { visibility: hidden; pointer-events: none; }
@@ -143,9 +148,23 @@
 
             </div>
 
-            <div id="talking-points-panel" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden w-[780px] rounded-3xl p-10 shadow-2xl border border-white/50 bg-white/80 backdrop-blur-xl transition-opacity duration-300">
-                <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest mb-7">Core Capabilities</h4>
-                <ul id="talking-points-list" class="list-disc list-outside pl-8 space-y-5 text-slate-800 text-2xl leading-snug font-medium [&_li]:pl-2"></ul>
+            <div id="talking-points-panel" onclick="toggleBriefingCard()" class="flip-card absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden w-[860px] h-[560px] cursor-pointer">
+                <div class="flip-card-inner relative h-full w-full">
+                    <div class="flip-card-face absolute inset-0 rounded-3xl p-10 shadow-2xl border border-white/50 bg-white/85 backdrop-blur-xl">
+                        <div class="flex items-center justify-between mb-8">
+                            <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Meeting Agenda</h4>
+                            <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Click for capabilities</span>
+                        </div>
+                        <ol id="agenda-list" class="list-decimal list-outside pl-8 space-y-5 text-slate-800 text-2xl leading-snug font-medium [&_li]:pl-2"></ol>
+                    </div>
+                    <div class="flip-card-face flip-card-back absolute inset-0 rounded-3xl p-10 shadow-2xl border border-white/50 bg-white/85 backdrop-blur-xl">
+                        <div class="flex items-center justify-between mb-8">
+                            <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Core Capabilities</h4>
+                            <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Click for agenda</span>
+                        </div>
+                        <ul id="talking-points-list" class="list-disc list-outside pl-8 space-y-5 text-slate-800 text-xl leading-snug font-medium [&_li]:pl-2"></ul>
+                    </div>
+                </div>
             </div>
 
         </section>
@@ -291,6 +310,7 @@
             const htmlLayer = document.getElementById('html-layer');
             const talkingPointsPanel = document.getElementById('talking-points-panel');
             const talkingPointsList = document.getElementById('talking-points-list');
+            const agendaList = document.getElementById('agenda-list');
 
             if (data.type === 'map') {
                 htmlLayer.classList.add('hidden');
@@ -310,10 +330,14 @@
                     document.getElementById('placeholder-text').innerText = `Missing: ${data.id} asset`;
                 }
 
-                // Show persistent Talking Points panel when data has talkingPoints
-                if (data.talkingPoints && Array.isArray(data.talkingPoints) && data.talkingPoints.length > 0) {
+                // Show briefing card when a map page has agenda or capability content.
+                const agendaItems = Array.isArray(data.agenda) ? data.agenda : [];
+                const talkingPoints = Array.isArray(data.talkingPoints) ? data.talkingPoints : [];
+                if (agendaItems.length > 0 || talkingPoints.length > 0) {
                     talkingPointsPanel.classList.remove('hidden');
-                    talkingPointsList.innerHTML = data.talkingPoints.map(pt => `<li>${pt}</li>`).join('');
+                    talkingPointsPanel.classList.remove('is-flipped');
+                    agendaList.innerHTML = agendaItems.map(pt => `<li>${pt}</li>`).join('');
+                    talkingPointsList.innerHTML = talkingPoints.map(pt => `<li>${pt}</li>`).join('');
                 } else {
                     talkingPointsPanel.classList.add('hidden');
                 }
@@ -325,6 +349,11 @@
                 htmlLayer.classList.remove('hidden');
                 renderHTMLContent(viewId, htmlLayer);
             }
+        }
+
+        function toggleBriefingCard() {
+            const card = document.getElementById('talking-points-panel');
+            if (!card.classList.contains('hidden')) card.classList.toggle('is-flipped');
         }
 
         // --- HTML CONTENT RENDERER ---
