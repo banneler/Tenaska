@@ -33,6 +33,17 @@
       "type": "html",
       "stats": []
     },
+    "rightfiber": {
+      "id": "rightfiber",
+      "title": "Rightfiber",
+      "subtitle": "Stronger Together. Right For What's Next.",
+      "type": "html",
+      "stats": [
+        { "label": "Fiber Network", "value": "28K+ Miles", "color": "text-gpc-green" },
+        { "label": "State Footprint", "value": "20 States", "color": "text-gpc-blue" },
+        { "label": "Communities", "value": "400+", "color": "text-gpc-orange" }
+      ]
+    },
     "national": {
       "id": "national",
       "title": "The Network",
@@ -136,6 +147,17 @@
     }
   },
   "pageContent": {
+    "rightfiber": {
+      "background": "rightfiber-01.png",
+      "kicker": "Rightfiber merger overview",
+      "headline": "A larger regional fiber platform built for what comes next.",
+      "points": [
+        "Expands the combined fiber network to more than 28,000 route miles.",
+        "Grows the state footprint from 13 states to 20 states.",
+        "Combines two trusted local providers with shared values and complementary strengths.",
+        "Scales service across more than 400 communities while preserving local relationships and support."
+      ]
+    },
     "agenda": {
       "heroImages": ["hero_1.png", "hero_2.png", "hero_3.png", "hero_4.png"],
       "items": [
