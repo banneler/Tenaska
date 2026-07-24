@@ -1,6 +1,7 @@
 {
   "navOrder": [
-    "mutual-of-omaha",
+    "agenda",
+    "core-capabilities",
     "national",
     "layer2",
     "ip-network",
@@ -12,32 +13,30 @@
     "why-gpc"
   ],
   "mapData": {
-    "mutual-of-omaha": {
-      "id": "mutual-of-omaha",
+    "agenda": {
+      "id": "agenda",
       "title": "Tenaska",
-      "subtitle": "GPC Network Capabilities for Energy Operations",
-      "placeholder": "Load IP_Network_Map.svg",
-      "file": "tenaska-01.png",
+      "navLabel": "Meeting Agenda",
+      "subtitle": "Executive Conversation Agenda",
       "logo": "tenaska_logo.png",
-      "type": "map",
-      "agenda": [
-        "Align on Tenaska's operating priorities and near-term network considerations.",
-        "Review GPC's regional fiber footprint, Omaha metro reach and data center connectivity.",
-        "Discuss resilient transport options for critical energy operations and enterprise applications.",
-        "Map support expectations across design, implementation, escalation and post-install ownership.",
-        "Identify next steps for technical discovery, route review and solution planning."
-      ],
-      "talkingPoints": [
-        "Enterprise lifecycle management: dedicated end-to-end account ownership across solution design, implementation and proactive post-install support.",
-        "24/7/365 Network Operations Center: continuous monitoring, rapid incident response and proactive maintenance to protect uptime.",
-        "Local technical engagement: Omaha and regional engineering and field technician support for responsive troubleshooting and maintenance.",
-        "Customized consultation: redundancy planning, private Layer 2/wavelength design, data center access and scalability assessments for critical operations.",
-        "Strategic regional presence: Midwest fiber assets, core facilities and support hubs positioned for localized account management and rapid response."
-      ],
+      "type": "html",
       "stats": [
         { "label": "Metro Fiber", "value": "800+ Miles", "color": "text-gpc-green" },
         { "label": "Core Capacity", "value": "400G Standard", "color": "text-gpc-blue" },
         { "label": "Operations Support", "value": "24/7 Monitoring", "color": "text-gpc-orange" }
+      ]
+    },
+    "core-capabilities": {
+      "id": "core-capabilities",
+      "title": "Tenaska",
+      "navLabel": "Core Capabilities",
+      "subtitle": "GPC Network Capabilities for Energy Operations",
+      "logo": "tenaska_logo.png",
+      "type": "html",
+      "stats": [
+        { "label": "Fiber Footprint", "value": "20,000+ Miles", "color": "text-gpc-green" },
+        { "label": "Data Centers", "value": "25+", "color": "text-gpc-blue" },
+        { "label": "Monitoring", "value": "24/7/365", "color": "text-gpc-orange" }
       ]
     },
     "national": {
@@ -143,6 +142,37 @@
     }
   },
   "pageContent": {
+    "agenda": {
+      "heroImages": ["hero_1.png", "hero_2.png", "hero_3.png", "hero_4.png"],
+      "items": [
+        "Align on Tenaska's operating priorities and near-term network considerations.",
+        "Review GPC's regional fiber footprint, Omaha metro reach and data center connectivity.",
+        "Discuss resilient transport options for critical energy operations and enterprise applications.",
+        "Map support expectations across design, implementation, escalation and post-install ownership.",
+        "Identify next steps for technical discovery, route review and solution planning."
+      ]
+    },
+    "core-capabilities": {
+      "heroImages": ["hero_1.png", "hero_2.png", "hero_3.png", "hero_4.png"],
+      "cards": [
+        {
+          "title": "Enterprise Lifecycle Management",
+          "desc": "Dedicated end-to-end account ownership across solution design, implementation and proactive post-install support."
+        },
+        {
+          "title": "24/7/365 Network Operations Center",
+          "desc": "Continuous monitoring, rapid incident response and proactive maintenance to protect uptime for critical operations."
+        },
+        {
+          "title": "Local Technical Engagement",
+          "desc": "Omaha and regional engineering and field technician support for responsive troubleshooting and maintenance."
+        },
+        {
+          "title": "Customized Consultation",
+          "desc": "Redundancy planning, private Layer 2 and wavelength design, data center access and scalability assessments for complex enterprise needs."
+        }
+      ]
+    },
     "data-centers": [
       { "city": "Denver, CO", "name": "910 Telecom" },
       { "city": "Denver, CO", "name": "Coresite" },

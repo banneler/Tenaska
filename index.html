@@ -40,6 +40,48 @@
             50% { transform: translate(-50%, -50%) perspective(1400px) rotateY(90deg); }
             100% { transform: translate(-50%, -50%) perspective(1400px) rotateY(0deg); }
         }
+        .hero-image-card { transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+        .agenda-image-grid { transition: width 0.9s cubic-bezier(0.22, 1, 0.36, 1), gap 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
+        .agenda-content { opacity: 0; transform: translateX(40px); transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s; }
+        .agenda-hero.is-revealed .agenda-image-grid { width: 170px; grid-template-columns: 1fr; grid-template-rows: repeat(4, minmax(0, 1fr)); gap: 10px; }
+        .agenda-hero.is-revealed .hero-image-card { min-height: 0; }
+        .agenda-hero.is-revealed .agenda-content { opacity: 1; transform: translateX(0); }
+        .capability-card { transform-style: preserve-3d; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+        .capability-card::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            border-radius: 1.5rem;
+            background: linear-gradient(135deg, rgba(234, 88, 12, 0.0), rgba(234, 88, 12, 0.28));
+            opacity: 0;
+            transition: opacity 0.25s ease;
+            pointer-events: none;
+        }
+        .capability-card::before {
+            content: '›';
+            position: absolute;
+            right: 1.5rem;
+            bottom: 1rem;
+            z-index: 2;
+            color: white;
+            font-size: 4rem;
+            line-height: 1;
+            opacity: 0;
+            transform: translateX(-8px);
+            transition: opacity 0.25s ease, transform 0.25s ease;
+            text-shadow: 0 6px 18px rgba(0, 0, 0, 0.35);
+            pointer-events: none;
+        }
+        .capability-card:hover { transform: translateY(-4px); box-shadow: 0 24px 45px -20px rgba(15, 23, 42, 0.5); }
+        .capability-card:hover::after, .capability-card:hover::before { opacity: 1; }
+        .capability-card:hover::before { transform: translateX(0); }
+        .capability-card.is-revealed::after, .capability-card.is-revealed::before { display: none; }
+        .capability-card.flipping { animation: capabilityFlip 0.55s ease-in-out; }
+        @keyframes capabilityFlip {
+            0% { transform: perspective(1200px) rotateY(0deg); }
+            50% { transform: perspective(1200px) rotateY(90deg); }
+            100% { transform: perspective(1200px) rotateY(0deg); }
+        }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
         .screensaver-dismissed { visibility: hidden; pointer-events: none; }
@@ -182,7 +224,9 @@
         let pageContent = {};
         let versionMode = 'key'; // 'key' | 'extended'
         let briefingCardFlipping = false;
-        const KEY_CONCEPTS_NAV = ['mutual-of-omaha', 'national', 'layer2', 'ip-network', 'key-routes', 'why-gpc'];
+        let agendaRevealTimer = null;
+        const capabilityCardFlipping = {};
+        const KEY_CONCEPTS_NAV = ['agenda', 'core-capabilities', 'national', 'layer2', 'ip-network', 'key-routes', 'why-gpc'];
         function getFilteredNavOrder() {
             if (versionMode === 'extended') return navOrder;
             return KEY_CONCEPTS_NAV.filter(id => navOrder.includes(id));
@@ -276,6 +320,10 @@
         function updateView(viewId) {
             const data = mapData[viewId];
             if (!data) return;
+            if (agendaRevealTimer) {
+                clearTimeout(agendaRevealTimer);
+                agendaRevealTimer = null;
+            }
             
             getFilteredNavOrder().forEach(key => {
                 const el = document.getElementById(`nav-btn-${key}`);
@@ -378,11 +426,85 @@
             }, 620);
         }
 
+        function renderHeroImageCards(images, extraClasses = '') {
+            return images.map((image, index) => `
+                <div class="hero-image-card relative overflow-hidden rounded-2xl shadow-floating bg-slate-200 ${extraClasses}">
+                    <img src="${ASSET_BASE + image}" alt="Tenaska discussion visual ${index + 1}" class="absolute inset-0 w-full h-full object-cover">
+                </div>
+            `).join('');
+        }
+
+        function toggleCapabilityCard(index) {
+            const card = document.getElementById(`capability-card-${index}`);
+            if (!card || capabilityCardFlipping[index]) return;
+
+            const front = document.getElementById(`capability-front-${index}`);
+            const back = document.getElementById(`capability-back-${index}`);
+            const showingFront = !front.classList.contains('hidden');
+            capabilityCardFlipping[index] = true;
+            card.classList.add('flipping');
+
+            setTimeout(() => {
+                front.classList.toggle('hidden', showingFront);
+                back.classList.toggle('hidden', !showingFront);
+                card.classList.toggle('is-revealed', showingFront);
+            }, 275);
+
+            setTimeout(() => {
+                card.classList.remove('flipping');
+                capabilityCardFlipping[index] = false;
+            }, 570);
+        }
+
         // --- HTML CONTENT RENDERER ---
         function renderHTMLContent(viewId, container) {
             let html = '';
             
-            if (viewId === 'data-centers' && pageContent['data-centers']) {
+            if (viewId === 'agenda' && pageContent.agenda) {
+                const content = pageContent.agenda;
+                html += `
+                    <div id="agenda-hero" class="agenda-hero relative w-full h-full fade-in overflow-hidden">
+                        <div class="agenda-image-grid absolute inset-y-0 left-0 z-10 grid grid-cols-4 gap-4 w-full h-full">
+                            ${renderHeroImageCards(content.heroImages || [], 'min-h-full')}
+                        </div>
+                        <div class="agenda-content absolute inset-y-0 right-0 left-[210px] z-0 flex items-center">
+                            <div class="w-full rounded-3xl border border-white/50 bg-white/70 backdrop-blur-sm shadow-2xl p-12">
+                                <h3 class="text-gpc-orange text-xl font-bold uppercase tracking-widest mb-8">Meeting Agenda</h3>
+                                <ol class="list-decimal list-outside pl-8 space-y-6 text-slate-800 text-3xl leading-snug font-medium [&_li]:pl-2">
+                                    ${(content.items || []).map(item => `<li>${item}</li>`).join('')}
+                                </ol>
+                            </div>
+                        </div>
+                    </div>
+                `;
+                agendaRevealTimer = setTimeout(() => {
+                    const agendaHero = document.getElementById('agenda-hero');
+                    if (agendaHero) agendaHero.classList.add('is-revealed');
+                }, 5000);
+            }
+            else if (viewId === 'core-capabilities' && pageContent['core-capabilities']) {
+                const content = pageContent['core-capabilities'];
+                const cards = content.cards || [];
+                html += `
+                    <div class="grid grid-cols-4 gap-4 w-full h-full fade-in">
+                        ${(content.heroImages || []).map((image, index) => {
+                            const card = cards[index] || {};
+                            return `
+                                <div id="capability-card-${index}" onclick="toggleCapabilityCard(${index})" class="capability-card relative overflow-hidden rounded-3xl shadow-floating bg-slate-200 cursor-pointer">
+                                    <div id="capability-front-${index}" class="absolute inset-0">
+                                        <img src="${ASSET_BASE + image}" alt="${card.title || `Capability ${index + 1}`}" class="absolute inset-0 w-full h-full object-cover">
+                                    </div>
+                                    <div id="capability-back-${index}" class="hidden absolute inset-0 bg-gpc-navy/90 text-white p-8 flex flex-col justify-center">
+                                        <h3 class="text-gpc-orange text-lg font-bold uppercase tracking-widest mb-5">${card.title || ''}</h3>
+                                        <p class="text-2xl leading-snug font-medium">${card.desc || ''}</p>
+                                    </div>
+                                </div>
+                            `;
+                        }).join('')}
+                    </div>
+                `;
+            }
+            else if (viewId === 'data-centers' && pageContent['data-centers']) {
                 html += '<div class="grid grid-cols-5 gap-4 w-full max-w-7xl mx-auto content-start fade-in pt-4 pb-8">';
                 pageContent['data-centers'].forEach(dc => {
                     const hi = dc.highlight === true;
