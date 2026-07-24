@@ -15,22 +15,22 @@
     "mutual-of-omaha": {
       "id": "mutual-of-omaha",
       "title": "Tenaska",
-      "subtitle": "Energy Operations Network Capabilities",
+      "subtitle": "GPC Network Capabilities for Energy Operations",
       "placeholder": "Load IP_Network_Map.svg",
       "file": "tenaska-01.png",
       "logo": "tenaska_logo.png",
       "type": "map",
       "talkingPoints": [
-        "Omaha-based fiber adjacency for a $15.6B energy company coordinating marketing, generation, finance and development from headquarters.",
-        "Private, diverse transport paths for 24/7 trading, scheduling, settlement, SCADA/EMS and risk management workflows.",
-        "Low-latency connectivity into key data centers, cloud platforms and market systems supporting 18,500+ MW of managed load.",
-        "Scalable 100% fiber capacity up to 400G for large-load customers and Tenaska's 33,000 MW energy project pipeline.",
-        "Local account support backed by 24/7 monitoring for always-on power, gas, generation and customer portal operations."
+        "Dedicated Omaha metro fiber paths that support headquarters connectivity, local resilience and secure access to critical systems.",
+        "Private Layer 2 and wavelength options for trading, scheduling, settlement, SCADA/EMS and customer-facing portal workflows.",
+        "Direct data center and cloud connectivity that can keep sensitive operational traffic off the public internet where needed.",
+        "Diverse routing and 400G-ready backbone capacity for large-load energy customers, project sites and future data-center demand.",
+        "Local engineering, account support and 24/7 network monitoring for rapid escalation around always-on energy operations."
       ],
       "stats": [
-        { "label": "Managed Generation", "value": "6,622 MW", "color": "text-gpc-green" },
-        { "label": "Load Managed", "value": "18,500+ MW", "color": "text-gpc-blue" },
-        { "label": "Development Pipeline", "value": "33,000 MW", "color": "text-gpc-orange" }
+        { "label": "Metro Fiber", "value": "800+ Miles", "color": "text-gpc-green" },
+        { "label": "Core Capacity", "value": "400G Standard", "color": "text-gpc-blue" },
+        { "label": "Operations Support", "value": "24/7 Monitoring", "color": "text-gpc-orange" }
       ]
     },
     "national": {
