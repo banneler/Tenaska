@@ -232,6 +232,10 @@
         let versionMode = 'key'; // 'key' | 'extended'
         let briefingCardFlipping = false;
         let agendaRevealTimer = null;
+        let agendaRevealCompletionTimer = null;
+        let agendaRevealCompleted = false;
+        const AGENDA_REVEAL_DELAY_MS = 3000;
+        const AGENDA_REVEAL_ANIMATION_MS = 950;
         const KEY_CONCEPTS_NAV = ['agenda', 'core-capabilities', 'national', 'layer2', 'ip-network', 'key-routes', 'why-gpc'];
         function getFilteredNavOrder() {
             if (versionMode === 'extended') return navOrder;
@@ -329,6 +333,10 @@
             if (agendaRevealTimer) {
                 clearTimeout(agendaRevealTimer);
                 agendaRevealTimer = null;
+            }
+            if (agendaRevealCompletionTimer) {
+                clearTimeout(agendaRevealCompletionTimer);
+                agendaRevealCompletionTimer = null;
             }
             
             getFilteredNavOrder().forEach(key => {
@@ -465,13 +473,21 @@
         function scheduleAgendaReveal() {
             const agendaHero = document.getElementById('agenda-hero');
             const screensaver = document.getElementById('screensaver');
+            if (agendaRevealCompleted) {
+                if (agendaHero) agendaHero.classList.add('is-revealed');
+                return;
+            }
             if (!agendaHero || !screensaver || !screensaver.classList.contains('screensaver-dismissed')) return;
 
             if (agendaRevealTimer) clearTimeout(agendaRevealTimer);
             agendaRevealTimer = setTimeout(() => {
                 agendaHero.classList.add('is-revealed');
+                agendaRevealCompletionTimer = setTimeout(() => {
+                    agendaRevealCompleted = true;
+                    agendaRevealCompletionTimer = null;
+                }, AGENDA_REVEAL_ANIMATION_MS);
                 agendaRevealTimer = null;
-            }, 3000);
+            }, AGENDA_REVEAL_DELAY_MS);
         }
 
         // --- HTML CONTENT RENDERER ---
@@ -484,7 +500,7 @@
             if (viewId === 'agenda' && pageContent.agenda) {
                 const content = pageContent.agenda;
                 html += `
-                    <div id="agenda-hero" class="agenda-hero relative w-full h-full fade-in overflow-hidden">
+                    <div id="agenda-hero" class="agenda-hero relative w-full h-full fade-in overflow-hidden ${agendaRevealCompleted ? 'is-revealed' : ''}">
                         <div class="agenda-image-grid absolute inset-0 z-10">
                             ${renderAgendaImageCards(content.heroImages || [])}
                         </div>
