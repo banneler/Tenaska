@@ -268,7 +268,17 @@
             const sub = document.getElementById('view-subtitle');
             title.classList.remove('fade-in'); sub.classList.remove('fade-in');
             void title.offsetWidth; 
-            title.innerText = data.title; sub.innerText = data.subtitle;
+            title.textContent = '';
+            if (data.logo) {
+                const logo = document.createElement('img');
+                logo.src = ASSET_BASE + data.logo;
+                logo.alt = `${data.title} logo`;
+                logo.className = 'h-14 w-auto object-contain';
+                title.appendChild(logo);
+            } else {
+                title.innerText = data.title;
+            }
+            sub.innerText = data.subtitle;
             title.classList.add('fade-in'); sub.classList.add('fade-in');
 
             const stats = document.getElementById('stats-container');
