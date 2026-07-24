@@ -12,7 +12,7 @@
                 extend: {
                     colors: {
                         gpc: {
-                            navy: '#0A192F', blue: '#1E40AF', green: '#65A30D', orange: '#EA580C', light: '#F8FAFC', border: '#E2E8F0'
+                            navy: '#0A192F', blue: '#1E40AF', green: '#65A30D', orange: '#991a38', light: '#F8FAFC', border: '#E2E8F0'
                         }
                     },
                     fontFamily: { 
@@ -26,7 +26,7 @@
     <style>
         .fade-in { animation: fadeIn 0.4s ease-out forwards; }
         @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
-        .nav-item-active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #EA580C !important; }
+        .nav-item-active { background-color: rgba(255, 255, 255, 0.1); border-left-color: #991a38 !important; }
         ::-webkit-scrollbar { width: 6px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: #1E40AF; border-radius: 10px; }
@@ -128,7 +128,7 @@
         <div class="bg-white rounded-2xl shadow-floating w-[800px] p-8">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-bold text-slate-800">Configure Client Greeting</h2>
-                <button onclick="closeAdmin()" class="text-slate-400 hover:text-red-500 font-bold text-xl">✕</button>
+                <button onclick="closeAdmin()" class="text-slate-400 hover:text-[#991a38] font-bold text-xl">✕</button>
             </div>
             <input type="text" id="client-name-input" class="w-full text-4xl font-bold text-center text-gpc-blue border-b-2 border-slate-200 focus:border-gpc-orange outline-none bg-transparent mb-8 pb-2" placeholder="Enter Client Name..." readonly>
             <div class="flex flex-col gap-2 bg-slate-100 p-4 rounded-xl">
@@ -139,7 +139,7 @@
             </div>
             <div class="flex justify-end gap-4 mt-8 border-t border-slate-100 pt-6">
                 <button onclick="clearClient()" class="px-6 py-3 rounded-lg font-bold text-slate-500 hover:bg-slate-100 transition-colors">Clear Saved Data</button>
-                <button onclick="saveClient()" class="px-8 py-3 rounded-lg font-bold text-white bg-gpc-orange hover:bg-orange-700 transition-colors shadow-lg">Save & Initialize</button>
+                <button onclick="saveClient()" class="px-8 py-3 rounded-lg font-bold text-white bg-gpc-orange hover:bg-[#991a38] transition-colors shadow-lg">Save & Initialize</button>
             </div>
         </div>
     </div>
