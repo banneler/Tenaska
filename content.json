@@ -145,11 +145,10 @@
     "agenda": {
       "heroImages": ["hero_1.png", "hero_2.png", "hero_3.png", "hero_4.png"],
       "items": [
-        "Align on Tenaska's operating priorities and near-term network considerations.",
-        "Review GPC's regional fiber footprint, Omaha metro reach and data center connectivity.",
-        "Discuss resilient transport options for critical energy operations and enterprise applications.",
-        "Map support expectations across design, implementation, escalation and post-install ownership.",
-        "Identify next steps for technical discovery, route review and solution planning."
+        "Brief introductions and alignment on executive stakeholders.",
+        "Establish the purpose of the conversation and desired outcomes.",
+        "Understand Tenaska's strategic priorities and current network architecture.",
+        "Share where Great Plains Communications can support resiliency, scalability and operational continuity."
       ]
     },
     "core-capabilities": {
