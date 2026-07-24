@@ -81,12 +81,12 @@
         .capability-body {
             position: relative;
             background-image:
-                linear-gradient(30deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
-                linear-gradient(150deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
-                linear-gradient(30deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
-                linear-gradient(150deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
-                linear-gradient(60deg, rgba(153, 26, 56, 0.10) 25%, transparent 25.5%, transparent 75%, rgba(153, 26, 56, 0.10) 75%, rgba(153, 26, 56, 0.10)),
-                linear-gradient(60deg, rgba(153, 26, 56, 0.10) 25%, transparent 25.5%, transparent 75%, rgba(153, 26, 56, 0.10) 75%, rgba(153, 26, 56, 0.10));
+                linear-gradient(30deg, rgba(153, 26, 56, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.025) 87.5%),
+                linear-gradient(150deg, rgba(153, 26, 56, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.025) 87.5%),
+                linear-gradient(30deg, rgba(153, 26, 56, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.025) 87.5%),
+                linear-gradient(150deg, rgba(153, 26, 56, 0.025) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.025) 87.5%),
+                linear-gradient(60deg, rgba(153, 26, 56, 0.035) 25%, transparent 25.5%, transparent 75%, rgba(153, 26, 56, 0.035) 75%, rgba(153, 26, 56, 0.035)),
+                linear-gradient(60deg, rgba(153, 26, 56, 0.035) 25%, transparent 25.5%, transparent 75%, rgba(153, 26, 56, 0.035) 75%, rgba(153, 26, 56, 0.035));
             background-position: 0 0, 0 0, 36px 63px, 36px 63px, 0 0, 36px 63px;
             background-size: 72px 126px;
         }
@@ -495,7 +495,7 @@
                         <div class="agenda-content absolute inset-x-0 top-0 bottom-[410px] z-0 flex items-center">
                             <div class="w-full rounded-3xl border border-white/50 bg-white/70 backdrop-blur-sm shadow-2xl p-12">
                                 <h3 class="text-gpc-orange text-xl font-bold uppercase tracking-widest mb-8">Meeting Agenda</h3>
-                                <ol class="list-decimal list-outside pl-8 space-y-6 text-slate-800 text-3xl leading-snug font-medium [&_li]:pl-2">
+                                <ol class="list-decimal list-outside pl-8 space-y-6 text-slate-800 text-[1.7rem] leading-snug font-medium [&_li]:pl-2">
                                     ${(content.items || []).map(item => `<li>${item}</li>`).join('')}
                                 </ol>
                             </div>
