@@ -15,29 +15,23 @@
   "mapData": {
     "agenda": {
       "id": "agenda",
-      "title": "Tenaska",
+      "title": "Meeting Agenda",
       "navLabel": "Meeting Agenda",
       "subtitle": "Executive Conversation Agenda",
       "logo": "tenaska_logo.png",
+      "logoPosition": "right",
       "type": "html",
-      "stats": [
-        { "label": "Metro Fiber", "value": "800+ Miles", "color": "text-gpc-green" },
-        { "label": "Core Capacity", "value": "400G Standard", "color": "text-gpc-blue" },
-        { "label": "Operations Support", "value": "24/7 Monitoring", "color": "text-gpc-orange" }
-      ]
+      "stats": []
     },
     "core-capabilities": {
       "id": "core-capabilities",
-      "title": "Tenaska",
+      "title": "Core Capabilities",
       "navLabel": "Core Capabilities",
       "subtitle": "GPC Network Capabilities for Energy Operations",
       "logo": "tenaska_logo.png",
+      "logoPosition": "right",
       "type": "html",
-      "stats": [
-        { "label": "Fiber Footprint", "value": "20,000+ Miles", "color": "text-gpc-green" },
-        { "label": "Data Centers", "value": "25+", "color": "text-gpc-blue" },
-        { "label": "Monitoring", "value": "24/7/365", "color": "text-gpc-orange" }
-      ]
+      "stats": []
     },
     "national": {
       "id": "national",

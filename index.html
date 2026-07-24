@@ -348,7 +348,7 @@
             title.classList.remove('fade-in'); sub.classList.remove('fade-in');
             void title.offsetWidth; 
             title.textContent = '';
-            if (data.logo) {
+            if (data.logo && data.logoPosition !== 'right') {
                 const logo = document.createElement('img');
                 logo.src = ASSET_BASE + data.logo;
                 logo.alt = `${data.title} logo`;
@@ -362,9 +362,13 @@
 
             const stats = document.getElementById('stats-container');
             stats.innerHTML = '';
-            data.stats.forEach(s => {
+            if (data.logo && data.logoPosition === 'right') {
+                stats.innerHTML = `<img src="${ASSET_BASE + data.logo}" alt="${data.title} logo" class="h-14 w-auto object-contain">`;
+            } else {
+                data.stats.forEach(s => {
                 stats.innerHTML += `<div class="flex flex-col items-start border-l border-slate-200 pl-6"><span class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">${s.label}</span><span class="text-2xl font-bold ${s.color}">${s.value}</span></div>`;
-            });
+                });
+            }
 
             const mapLayer = document.getElementById('map-layer');
             const htmlLayer = document.getElementById('html-layer');
