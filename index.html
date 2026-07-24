@@ -566,49 +566,58 @@
                 html += '</div>';
             } 
             else if (viewId === 'why-gpc' && pageContent['why-gpc']) {
+                const content = pageContent['why-gpc'];
                 html += `
-                    <div class="relative w-full h-full fade-in overflow-hidden rounded-2xl bg-gpc-navy text-white shadow-2xl">
-                        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 20%, #991a38 0%, transparent 32%), radial-gradient(circle at 85% 15%, #1E40AF 0%, transparent 28%), linear-gradient(135deg, rgba(255,255,255,0.08) 0 1px, transparent 1px); background-size: auto, auto, 42px 42px;"></div>
-                        <div class="absolute -left-24 -bottom-28 w-96 h-96 rounded-full bg-[#991a38]/20 blur-3xl"></div>
-                        <div class="relative h-full grid grid-cols-5 gap-10 p-10">
-                            <div class="col-span-2 flex flex-col justify-between rounded-3xl border border-white/10 bg-white/10 backdrop-blur-md p-10 shadow-2xl">
+                    <div class="relative w-full h-full fade-in overflow-hidden rounded-2xl bg-slate-50 text-slate-900 shadow-floating">
+                        <div class="absolute inset-0 bg-[radial-gradient(circle_at_12%_18%,rgba(153,26,56,0.10),transparent_28%),linear-gradient(135deg,rgba(255,255,255,0.86),rgba(248,250,252,0.94))]"></div>
+                        <div class="absolute inset-x-10 top-8 h-px bg-gradient-to-r from-transparent via-[#991a38]/30 to-transparent"></div>
+                        <div class="relative h-full grid grid-cols-12 gap-8 p-10">
+                            <div class="col-span-4 flex flex-col justify-between rounded-3xl border border-slate-200 bg-white p-10 shadow-xl">
                                 <div>
-                                    <p class="text-[#991a38] text-sm font-black uppercase tracking-[0.35em] mb-6">The GPC Advantage</p>
-                                    <h3 class="text-5xl font-black leading-tight tracking-tight mb-8">Built for critical business conversations.</h3>
-                                    <p class="text-2xl text-slate-200 leading-relaxed font-light">
-                                        ${pageContent['why-gpc'].intro}
+                                    <div class="mb-8 flex items-center gap-4">
+                                        <span class="h-px w-16 bg-[#991a38]"></span>
+                                        <p class="text-[#991a38] text-sm font-black uppercase tracking-[0.35em]">The GPC Advantage</p>
+                                    </div>
+                                    <h3 class="text-5xl font-black leading-[1.05] tracking-tight text-gpc-navy mb-8">A communications partner built for critical operations.</h3>
+                                    <p class="text-2xl text-slate-600 leading-relaxed font-normal">
+                                        ${content.intro}
                                     </p>
                                 </div>
-                                <div class="grid grid-cols-3 gap-4 pt-10">
-                                    <div class="rounded-2xl bg-black/25 border border-white/10 p-5">
-                                        <span class="block text-3xl font-black text-white">100+</span>
-                                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Years</span>
-                                    </div>
-                                    <div class="rounded-2xl bg-black/25 border border-white/10 p-5">
-                                        <span class="block text-3xl font-black text-[#991a38]">24/7</span>
-                                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Monitoring</span>
-                                    </div>
-                                    <div class="rounded-2xl bg-black/25 border border-white/10 p-5">
-                                        <span class="block text-3xl font-black text-white">20K+</span>
-                                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Fiber Miles</span>
+                                <div class="rounded-2xl border border-slate-200 bg-slate-50 p-6">
+                                    <p class="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-4">Executive Fit</p>
+                                    <div class="grid grid-cols-3 gap-4">
+                                        <div>
+                                            <span class="block text-3xl font-black text-gpc-navy">100+</span>
+                                            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Years</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-3xl font-black text-[#991a38]">24/7</span>
+                                            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Monitoring</span>
+                                        </div>
+                                        <div>
+                                            <span class="block text-3xl font-black text-gpc-navy">Local</span>
+                                            <span class="text-[10px] uppercase tracking-widest text-slate-500 font-bold">Support</span>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-span-3 grid grid-cols-2 gap-6 content-stretch">
+                            <div class="col-span-8 grid grid-cols-2 gap-6 content-stretch">
                 `;
                 
-                pageContent['why-gpc'].pillars.forEach((p, i) => {
+                content.pillars.forEach((p, i) => {
                     html += `
-                                <div class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white text-slate-900 p-8 shadow-2xl transition-transform duration-300 hover:-translate-y-1">
-                                    <div class="absolute inset-x-0 top-0 h-1.5 bg-[#991a38]"></div>
-                                    <div class="flex items-start gap-5">
-                                        <div class="shrink-0 rounded-2xl bg-[#991a38] p-4 text-white shadow-lg group-hover:bg-black transition-colors">
-                                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${p.icon}"></path></svg>
+                                <div class="group relative overflow-hidden rounded-3xl border border-slate-200 bg-white p-8 shadow-lg transition-all duration-300 hover:-translate-y-1 hover:shadow-xl">
+                                    <div class="absolute inset-y-8 left-0 w-1 bg-[#991a38]"></div>
+                                    <div class="flex h-full flex-col">
+                                        <div class="mb-8 flex items-center justify-between">
+                                            <div class="rounded-2xl border border-[#991a38]/15 bg-[#991a38]/5 p-4 text-[#991a38]">
+                                                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${p.icon}"></path></svg>
+                                            </div>
+                                            <div class="text-sm font-black uppercase tracking-[0.3em] text-slate-300">0${i + 1}</div>
                                         </div>
-                                        <div>
-                                            <div class="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-3">0${i + 1}</div>
-                                            <h3 class="text-3xl font-black text-gpc-navy leading-tight mb-4">${p.title}</h3>
-                                            <p class="text-xl text-slate-600 leading-relaxed font-medium">${p.desc}</p>
+                                        <div class="mt-auto">
+                                            <h3 class="text-3xl font-black text-gpc-navy leading-tight mb-5">${p.title}</h3>
+                                            <p class="text-xl text-slate-600 leading-relaxed font-normal">${p.desc}</p>
                                         </div>
                                     </div>
                                 </div>
