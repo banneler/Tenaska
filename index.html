@@ -78,6 +78,12 @@
         .capability-card:hover { transform: translateY(-4px); box-shadow: 0 24px 45px -20px rgba(15, 23, 42, 0.5); }
         .capability-card:hover .capability-front::after, .capability-card:hover .capability-front::before { opacity: 1; }
         .capability-card:hover .capability-front::before { transform: translateX(0); }
+        .capability-body {
+            background-image:
+                radial-gradient(circle at 20px 20px, rgba(153, 26, 56, 0.08) 1px, transparent 1.5px),
+                linear-gradient(135deg, rgba(153, 26, 56, 0.06), transparent 42%);
+            background-size: 26px 26px, 100% 100%;
+        }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
         .screensaver-dismissed { visibility: hidden; pointer-events: none; }
@@ -489,10 +495,10 @@
                                             <img src="${ASSET_BASE + image}" alt="${card.title || `Capability ${index + 1}`}" class="absolute inset-0 w-full h-full object-cover">
                                         </div>
                                         <div class="capability-face capability-back absolute inset-0 overflow-hidden rounded-3xl bg-white text-[#991a38] flex flex-col">
-                                            <div class="bg-[#991a38] h-32 px-8 flex items-center border-b-4 border-black">
-                                                <h3 class="text-black text-2xl font-black uppercase tracking-widest leading-tight">${card.title || ''}</h3>
+                                            <div class="bg-[#991a38] h-32 px-8 flex items-center justify-center border-b-4 border-black">
+                                                <h3 class="text-black text-2xl font-black uppercase tracking-widest leading-tight text-center">${card.title || ''}</h3>
                                             </div>
-                                            <div class="flex-1 p-8">
+                                            <div class="capability-body flex-1 px-8 pb-8 pt-12">
                                             ${Array.isArray(card.points) ? `
                                                 <ul class="list-disc list-outside pl-6 space-y-4 text-xl leading-snug font-bold text-[#991a38] [&_li]:pl-1">
                                                     ${card.points.map(point => `<li>${point}</li>`).join('')}
