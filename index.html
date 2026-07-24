@@ -521,13 +521,13 @@
                 html += `
                     <div class="relative w-full h-full fade-in overflow-hidden rounded-2xl bg-slate-100">
                         <img src="${ASSET_BASE + content.background}" alt="Rightfiber network map" class="absolute inset-0 w-full h-full object-contain">
-                        <div class="absolute left-12 top-12 bottom-12 w-[560px] rounded-3xl border border-white/60 bg-white/85 p-10 shadow-2xl backdrop-blur-sm flex flex-col justify-center">
-                            <div class="flex items-center gap-4 mb-7">
+                        <div class="absolute left-12 top-12 bottom-12 w-[560px] rounded-3xl border border-white/60 bg-white/85 p-9 pt-10 shadow-2xl backdrop-blur-sm flex flex-col">
+                            <div class="flex items-center gap-4 mb-6">
                                 <div class="h-px w-14 bg-[#991a38]"></div>
                                 <span class="text-[#991a38] text-xs font-black uppercase tracking-[0.35em]">${content.kicker}</span>
                             </div>
-                            <h3 class="text-5xl font-black text-slate-950 leading-[0.98] tracking-tight mb-8">${content.headline}</h3>
-                            <ul class="list-disc list-outside pl-6 space-y-5 text-xl text-slate-700 leading-snug font-semibold [&_li]:pl-2">
+                            <h3 class="text-[2.75rem] font-black text-slate-950 leading-[0.98] tracking-tight mb-7">${content.headline}</h3>
+                            <ul class="list-disc list-outside pl-6 space-y-4 text-lg text-slate-700 leading-snug font-semibold [&_li]:pl-2">
                                 ${(content.points || []).map(point => `<li>${point}</li>`).join('')}
                             </ul>
                         </div>
