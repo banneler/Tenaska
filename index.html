@@ -258,7 +258,7 @@
             setupFullscreen();
             setupVersionToggle();
             buildKeyboard();
-            setupAdminTrigger();
+            setupBrandAttractTrigger();
             
             await loadJSONData();
             
@@ -672,6 +672,14 @@
         // --- SCREENSAVER (ATTRACT MODE) ---
         let idleTime = 0;
         const SCREENSAVER_TIMEOUT_SECONDS = 300;
+        function showScreensaver() {
+            const ss = document.getElementById('screensaver');
+            idleTime = SCREENSAVER_TIMEOUT_SECONDS;
+            ss.classList.remove('screensaver-dismissed');
+            ss.classList.remove('opacity-0');
+            setTimeout(() => ss.classList.add('opacity-100'), 50);
+        }
+
         function setupScreensaver() {
             const ss = document.getElementById('screensaver');
             // Show on load (grid stays in layout so animation never stops)
@@ -704,18 +712,10 @@
         }
 
         // --- HIDDEN ADMIN & OSK ---
-        let clickCount = 0;
-        let clickTimer;
-        function setupAdminTrigger() {
-            document.getElementById('brand-trigger').addEventListener('click', () => {
-                clickCount++;
-                clearTimeout(clickTimer);
-                if (clickCount >= 3) {
-                    document.getElementById('admin-modal').classList.replace('hidden', 'flex');
-                    document.getElementById('client-name-input').value = '';
-                    clickCount = 0;
-                }
-                clickTimer = setTimeout(() => { clickCount = 0; }, 1000);
+        function setupBrandAttractTrigger() {
+            document.getElementById('brand-trigger').addEventListener('click', (event) => {
+                event.stopPropagation();
+                showScreensaver();
             });
         }
 
