@@ -160,6 +160,7 @@
     },
     "agenda": {
       "heroImages": ["hero_1.png", "hero_2.png", "hero_3.png", "hero_4.png"],
+      "headline": "A focused conversation around priorities, fit and next steps.",
       "items": [
         "Brief introductions and alignment on executive stakeholders.",
         "Establish the purpose of the conversation and desired outcomes.",

@@ -505,11 +505,17 @@
                             ${renderAgendaImageCards(content.heroImages || [])}
                         </div>
                         <div class="agenda-content absolute inset-x-0 top-0 bottom-[410px] z-0 flex items-center">
-                            <div class="w-full rounded-3xl border border-white/50 bg-white/70 backdrop-blur-sm shadow-2xl p-12">
-                                <h3 class="text-gpc-orange text-xl font-bold uppercase tracking-widest mb-8">Meeting Agenda</h3>
-                                <ol class="list-decimal list-outside pl-8 space-y-6 text-slate-800 text-[1.7rem] leading-snug font-medium [&_li]:pl-2">
-                                    ${(content.items || []).map(item => `<li>${item}</li>`).join('')}
-                                </ol>
+                            <div class="w-full rounded-3xl border border-white/60 bg-white/80 backdrop-blur-sm shadow-2xl p-10">
+                                <div class="mb-7 flex items-center gap-4">
+                                    <span class="h-px w-16 bg-[#991a38]"></span>
+                                    <p class="text-[#991a38] text-xs font-black uppercase tracking-[0.35em]">Meeting Agenda</p>
+                                </div>
+                                <div class="grid grid-cols-[0.72fr_1.28fr] gap-10 items-start">
+                                    <h3 class="text-[2.85rem] font-black text-slate-950 leading-[1.02] tracking-tight">${content.headline || 'A focused conversation around priorities, fit and next steps.'}</h3>
+                                    <ol class="list-decimal list-outside pl-8 space-y-5 text-slate-700 text-[1.45rem] leading-snug font-semibold marker:text-[#991a38] marker:font-black [&_li]:pl-2">
+                                        ${(content.items || []).map(item => `<li>${item}</li>`).join('')}
+                                    </ol>
+                                </div>
                             </div>
                         </div>
                     </div>
