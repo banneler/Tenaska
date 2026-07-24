@@ -194,7 +194,7 @@
       { "city": "Chicago, IL", "name": "Digital Realty Cermak" },
       { "city": "Chicago, IL", "name": "Equinix Cermak" },
       { "city": "Chicago, IL", "name": "Coresite" },
-      { "city": "Chicago, IL", "name": "QTS", "nameNormal": "Strategic Interconnect", "highlight": true },
+      { "city": "Chicago, IL", "name": "QTS" },
       { "city": "Minneapolis, MN", "name": "Cologix Minneapolis" },
       { "city": "Kansas City, MO", "name": "Netrality KC" },
       { "city": "St. Louis, MO", "name": "Netrality St. Louis" },
@@ -204,7 +204,7 @@
       { "city": "Papillion, NE", "name": "Light Edge Solutions" },
       { "city": "Lincoln, NE", "name": "Lincoln Edge Facility" },
       { "city": "Omaha, NE", "name": "1623 Farnam" },
-      { "city": "Omaha, NE", "name": "Scott Tech", "highlight": true },
+      { "city": "Omaha, NE", "name": "Scott Tech" },
       { "city": "Cincinnati, OH", "name": "CyrusOne" },
       { "city": "Yankton, SD", "name": "Dataware Green" },
       { "city": "South Bend, IN", "name": "Union Station Tech" },
@@ -260,7 +260,7 @@
       }
     ],
     "why-gpc": {
-      "intro": "Your choice of provider is not just about speed; it's about reliability, robust support and peace of mind. At Great Plains Communications (GPC) we deliver more than just internet service. We offer a true partnership.",
+      "intro": "Tenaska needs a communications partner close enough to respond quickly, experienced enough for critical operations and scalable enough to support what comes next.",
       "pillars": [
         {
           "title": "Over a Century of Experience",

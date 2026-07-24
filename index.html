@@ -44,6 +44,7 @@
         .agenda-content { opacity: 0; transform: translateX(40px); transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s; }
         .agenda-card { bottom: 0; left: var(--start-left); width: calc(25% - 12px); height: 100%; }
         .agenda-hero.is-revealed .agenda-card { height: 370px; }
+        .agenda-hero.is-revealed .agenda-card.agenda-card-top-crop img { object-position: top; }
         .agenda-hero.is-revealed .agenda-content { opacity: 1; transform: translateX(0); }
         .capability-card { perspective: 1200px; transition: box-shadow 0.2s ease, transform 0.2s ease; }
         .capability-card-inner { transform-style: preserve-3d; transition: transform 0.65s ease-in-out; }
@@ -446,8 +447,9 @@
         function renderAgendaImageCards(images) {
             const startLefts = ['0px', 'calc(25% + 4px)', 'calc(50% + 8px)', 'calc(75% + 12px)'];
             return images.map((image, index) => {
+                const cropClass = index === 3 ? ' agenda-card-top-crop' : '';
                 return `
-                    <div class="agenda-card hero-image-card absolute overflow-hidden rounded-2xl shadow-floating bg-slate-200" style="--start-left: ${startLefts[index] || '0px'};">
+                    <div class="agenda-card hero-image-card${cropClass} absolute overflow-hidden rounded-2xl shadow-floating bg-slate-200" style="--start-left: ${startLefts[index] || '0px'};">
                         <img src="${ASSET_BASE + image}" alt="Tenaska discussion visual ${index + 1}" class="absolute inset-0 w-full h-full object-cover">
                     </div>
                 `;
@@ -565,29 +567,58 @@
             } 
             else if (viewId === 'why-gpc' && pageContent['why-gpc']) {
                 html += `
-                    <div class="flex flex-col w-full h-full max-w-6xl mx-auto fade-in pt-8">
-                        <div class="mb-16 border-b border-slate-200 pb-10 text-center">
-                            <p class="text-2xl text-slate-600 leading-relaxed max-w-4xl mx-auto font-light">
-                                ${pageContent['why-gpc'].intro}
-                            </p>
-                        </div>
-                        <div class="grid grid-cols-2 gap-x-24 gap-y-16 flex-1 content-start px-8">
+                    <div class="relative w-full h-full fade-in overflow-hidden rounded-2xl bg-gpc-navy text-white shadow-2xl">
+                        <div class="absolute inset-0 opacity-20" style="background-image: radial-gradient(circle at 20% 20%, #991a38 0%, transparent 32%), radial-gradient(circle at 85% 15%, #1E40AF 0%, transparent 28%), linear-gradient(135deg, rgba(255,255,255,0.08) 0 1px, transparent 1px); background-size: auto, auto, 42px 42px;"></div>
+                        <div class="absolute -left-24 -bottom-28 w-96 h-96 rounded-full bg-[#991a38]/20 blur-3xl"></div>
+                        <div class="relative h-full grid grid-cols-5 gap-10 p-10">
+                            <div class="col-span-2 flex flex-col justify-between rounded-3xl border border-white/10 bg-white/10 backdrop-blur-md p-10 shadow-2xl">
+                                <div>
+                                    <p class="text-[#991a38] text-sm font-black uppercase tracking-[0.35em] mb-6">The GPC Advantage</p>
+                                    <h3 class="text-5xl font-black leading-tight tracking-tight mb-8">Built for critical business conversations.</h3>
+                                    <p class="text-2xl text-slate-200 leading-relaxed font-light">
+                                        ${pageContent['why-gpc'].intro}
+                                    </p>
+                                </div>
+                                <div class="grid grid-cols-3 gap-4 pt-10">
+                                    <div class="rounded-2xl bg-black/25 border border-white/10 p-5">
+                                        <span class="block text-3xl font-black text-white">100+</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Years</span>
+                                    </div>
+                                    <div class="rounded-2xl bg-black/25 border border-white/10 p-5">
+                                        <span class="block text-3xl font-black text-[#991a38]">24/7</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Monitoring</span>
+                                    </div>
+                                    <div class="rounded-2xl bg-black/25 border border-white/10 p-5">
+                                        <span class="block text-3xl font-black text-white">20K+</span>
+                                        <span class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Fiber Miles</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-span-3 grid grid-cols-2 gap-6 content-stretch">
                 `;
                 
-                pageContent['why-gpc'].pillars.forEach(p => {
+                pageContent['why-gpc'].pillars.forEach((p, i) => {
                     html += `
-                        <div class="flex gap-6 items-start group cursor-default">
-                            <div class="bg-gpc-green/10 p-5 rounded-full text-gpc-green shrink-0 group-hover:bg-gpc-green group-hover:text-white transition-colors duration-300 shadow-sm">
-                                <svg class="w-10 h-10" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${p.icon}"></path></svg>
-                            </div>
-                            <div>
-                                <h3 class="text-2xl font-bold text-slate-800 mb-3">${p.title}</h3>
-                                <p class="text-lg text-slate-500 leading-relaxed">${p.desc}</p>
-                            </div>
-                        </div>
+                                <div class="group relative overflow-hidden rounded-3xl border border-white/10 bg-white text-slate-900 p-8 shadow-2xl transition-transform duration-300 hover:-translate-y-1">
+                                    <div class="absolute inset-x-0 top-0 h-1.5 bg-[#991a38]"></div>
+                                    <div class="flex items-start gap-5">
+                                        <div class="shrink-0 rounded-2xl bg-[#991a38] p-4 text-white shadow-lg group-hover:bg-black transition-colors">
+                                            <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="${p.icon}"></path></svg>
+                                        </div>
+                                        <div>
+                                            <div class="text-xs font-black uppercase tracking-[0.25em] text-slate-400 mb-3">0${i + 1}</div>
+                                            <h3 class="text-3xl font-black text-gpc-navy leading-tight mb-4">${p.title}</h3>
+                                            <p class="text-xl text-slate-600 leading-relaxed font-medium">${p.desc}</p>
+                                        </div>
+                                    </div>
+                                </div>
                     `;
                 });
-                html += '</div></div>';
+                html += `
+                            </div>
+                        </div>
+                    </div>
+                `;
             }
             else if (viewId === 'case-studies' && pageContent['case-studies']) {
                 html += '<div class="grid grid-cols-3 gap-8 w-full h-full items-start fade-in">';
