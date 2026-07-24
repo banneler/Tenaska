@@ -43,11 +43,15 @@
         .hero-image-card { transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
         .agenda-image-grid { transition: all 0.9s cubic-bezier(0.22, 1, 0.36, 1); }
         .agenda-content { opacity: 0; transform: translateX(40px); transition: opacity 0.6s ease 0.35s, transform 0.6s ease 0.35s; }
-        .agenda-hero.is-revealed .agenda-image-grid { top: auto; height: 165px; grid-template-columns: repeat(4, minmax(0, 1fr)); grid-template-rows: 1fr; gap: 10px; }
+        .agenda-hero.is-revealed .agenda-image-grid { top: auto; left: 50%; transform: translateX(-50%); width: 802px; height: 190px; grid-template-columns: repeat(4, 190px); grid-template-rows: 190px; gap: 14px; }
         .agenda-hero.is-revealed .hero-image-card { min-height: 0; }
         .agenda-hero.is-revealed .agenda-content { opacity: 1; transform: translateX(0); }
-        .capability-card { transform-style: preserve-3d; transition: box-shadow 0.2s ease, transform 0.2s ease; }
-        .capability-card::after {
+        .capability-card { perspective: 1200px; transition: box-shadow 0.2s ease, transform 0.2s ease; }
+        .capability-card-inner { transform-style: preserve-3d; transition: transform 0.65s ease-in-out; }
+        .capability-card.is-revealed .capability-card-inner { transform: rotateY(180deg); }
+        .capability-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
+        .capability-back { transform: rotateY(180deg); }
+        .capability-front::after {
             content: '';
             position: absolute;
             inset: 0;
@@ -57,7 +61,7 @@
             transition: opacity 0.25s ease;
             pointer-events: none;
         }
-        .capability-card::before {
+        .capability-front::before {
             content: '›';
             position: absolute;
             right: 1.5rem;
@@ -73,15 +77,8 @@
             pointer-events: none;
         }
         .capability-card:hover { transform: translateY(-4px); box-shadow: 0 24px 45px -20px rgba(15, 23, 42, 0.5); }
-        .capability-card:hover::after, .capability-card:hover::before { opacity: 1; }
-        .capability-card:hover::before { transform: translateX(0); }
-        .capability-card.is-revealed::after, .capability-card.is-revealed::before { display: none; }
-        .capability-card.flipping { animation: capabilityFlip 0.55s ease-in-out; }
-        @keyframes capabilityFlip {
-            0% { transform: perspective(1200px) rotateY(0deg); }
-            50% { transform: perspective(1200px) rotateY(90deg); }
-            100% { transform: perspective(1200px) rotateY(0deg); }
-        }
+        .capability-card:hover .capability-front::after, .capability-card:hover .capability-front::before { opacity: 1; }
+        .capability-card:hover .capability-front::before { transform: translateX(0); }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
         .screensaver-dismissed { visibility: hidden; pointer-events: none; }
@@ -225,7 +222,6 @@
         let versionMode = 'key'; // 'key' | 'extended'
         let briefingCardFlipping = false;
         let agendaRevealTimer = null;
-        const capabilityCardFlipping = {};
         const KEY_CONCEPTS_NAV = ['agenda', 'core-capabilities', 'national', 'layer2', 'ip-network', 'key-routes', 'why-gpc'];
         function getFilteredNavOrder() {
             if (versionMode === 'extended') return navOrder;
@@ -436,24 +432,8 @@
 
         function toggleCapabilityCard(index) {
             const card = document.getElementById(`capability-card-${index}`);
-            if (!card || capabilityCardFlipping[index]) return;
-
-            const front = document.getElementById(`capability-front-${index}`);
-            const back = document.getElementById(`capability-back-${index}`);
-            const showingFront = !front.classList.contains('hidden');
-            capabilityCardFlipping[index] = true;
-            card.classList.add('flipping');
-
-            setTimeout(() => {
-                front.classList.toggle('hidden', showingFront);
-                back.classList.toggle('hidden', !showingFront);
-                card.classList.toggle('is-revealed', showingFront);
-            }, 275);
-
-            setTimeout(() => {
-                card.classList.remove('flipping');
-                capabilityCardFlipping[index] = false;
-            }, 570);
+            if (!card) return;
+            card.classList.toggle('is-revealed');
         }
 
         // --- HTML CONTENT RENDERER ---
@@ -470,7 +450,7 @@
                         <div class="agenda-image-grid absolute inset-y-0 left-0 z-10 grid grid-cols-4 gap-4 w-full h-full">
                             ${renderHeroImageCards(content.heroImages || [], 'min-h-full')}
                         </div>
-                        <div class="agenda-content absolute inset-x-0 top-0 bottom-[195px] z-0 flex items-center">
+                        <div class="agenda-content absolute inset-x-0 top-0 bottom-[225px] z-0 flex items-center">
                             <div class="w-full rounded-3xl border border-white/50 bg-white/70 backdrop-blur-sm shadow-2xl p-12">
                                 <h3 class="text-gpc-orange text-xl font-bold uppercase tracking-widest mb-8">Meeting Agenda</h3>
                                 <ol class="list-decimal list-outside pl-8 space-y-6 text-slate-800 text-3xl leading-snug font-medium [&_li]:pl-2">
@@ -493,17 +473,19 @@
                         ${(content.heroImages || []).map((image, index) => {
                             const card = cards[index] || {};
                             return `
-                                <div id="capability-card-${index}" onclick="toggleCapabilityCard(${index})" class="capability-card relative overflow-hidden rounded-3xl shadow-floating bg-slate-200 cursor-pointer">
-                                    <div id="capability-front-${index}" class="absolute inset-0">
-                                        <img src="${ASSET_BASE + image}" alt="${card.title || `Capability ${index + 1}`}" class="absolute inset-0 w-full h-full object-cover">
-                                    </div>
-                                    <div id="capability-back-${index}" class="hidden absolute inset-0 bg-gpc-navy/90 text-white p-8 flex flex-col justify-center">
-                                        <h3 class="text-gpc-orange text-lg font-bold uppercase tracking-widest mb-5">${card.title || ''}</h3>
-                                        ${Array.isArray(card.points) ? `
-                                            <ul class="list-disc list-outside pl-6 space-y-4 text-lg leading-snug font-medium text-slate-100 [&_li]:pl-1">
-                                                ${card.points.map(point => `<li>${point}</li>`).join('')}
-                                            </ul>
-                                        ` : `<p class="text-2xl leading-snug font-medium">${card.desc || ''}</p>`}
+                                <div id="capability-card-${index}" onclick="toggleCapabilityCard(${index})" class="capability-card relative h-full rounded-3xl shadow-floating cursor-pointer">
+                                    <div class="capability-card-inner relative h-full w-full">
+                                        <div class="capability-face capability-front absolute inset-0 overflow-hidden rounded-3xl bg-slate-200">
+                                            <img src="${ASSET_BASE + image}" alt="${card.title || `Capability ${index + 1}`}" class="absolute inset-0 w-full h-full object-cover">
+                                        </div>
+                                        <div class="capability-face capability-back absolute inset-0 overflow-hidden rounded-3xl bg-gpc-navy/95 text-white p-8 flex flex-col">
+                                            <h3 class="text-gpc-orange text-2xl font-bold uppercase tracking-widest pb-5 mb-6 border-b border-white/20">${card.title || ''}</h3>
+                                            ${Array.isArray(card.points) ? `
+                                                <ul class="list-disc list-outside pl-6 space-y-4 text-lg leading-snug font-medium text-slate-100 [&_li]:pl-1">
+                                                    ${card.points.map(point => `<li>${point}</li>`).join('')}
+                                                </ul>
+                                            ` : `<p class="text-2xl leading-snug font-medium">${card.desc || ''}</p>`}
+                                        </div>
                                     </div>
                                 </div>
                             `;
