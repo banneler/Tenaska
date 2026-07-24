@@ -33,6 +33,13 @@
         
         .key { transition: all 0.1s; cursor: pointer; user-select: none; }
         .key:active { transform: scale(0.95); background-color: #CBD5E1; }
+        .briefing-card { transform-style: preserve-3d; }
+        .briefing-card.flipping { animation: briefingFlip 0.6s ease-in-out; }
+        @keyframes briefingFlip {
+            0% { transform: translate(-50%, -50%) perspective(1400px) rotateY(0deg); }
+            50% { transform: translate(-50%, -50%) perspective(1400px) rotateY(90deg); }
+            100% { transform: translate(-50%, -50%) perspective(1400px) rotateY(0deg); }
+        }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
         .screensaver-dismissed { visibility: hidden; pointer-events: none; }
@@ -143,7 +150,7 @@
 
             </div>
 
-            <div id="talking-points-panel" onclick="toggleBriefingCard()" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden w-[860px] h-[560px] cursor-pointer rounded-3xl p-10 shadow-2xl border border-white/40 bg-white/60 backdrop-blur-sm transition-opacity duration-300">
+            <div id="talking-points-panel" onclick="toggleBriefingCard()" class="briefing-card absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden w-[860px] h-[560px] cursor-pointer rounded-3xl p-10 shadow-2xl border border-white/40 bg-white/60 backdrop-blur-sm transition-opacity duration-300">
                 <div id="agenda-face">
                     <div class="flex items-center justify-between mb-8">
                         <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Meeting Agenda</h4>
@@ -174,6 +181,7 @@
         let navOrder = [];
         let pageContent = {};
         let versionMode = 'key'; // 'key' | 'extended'
+        let briefingCardFlipping = false;
         const KEY_CONCEPTS_NAV = ['mutual-of-omaha', 'national', 'layer2', 'ip-network', 'key-routes', 'why-gpc'];
         function getFilteredNavOrder() {
             if (versionMode === 'extended') return navOrder;
@@ -330,6 +338,8 @@
                 const talkingPoints = Array.isArray(data.talkingPoints) ? data.talkingPoints : [];
                 if (agendaItems.length > 0 || talkingPoints.length > 0) {
                     talkingPointsPanel.classList.remove('hidden');
+                    talkingPointsPanel.classList.remove('flipping');
+                    briefingCardFlipping = false;
                     agendaFace.classList.remove('hidden');
                     capabilitiesFace.classList.add('hidden');
                     agendaList.innerHTML = agendaItems.map(pt => `<li>${pt}</li>`).join('');
@@ -349,13 +359,23 @@
 
         function toggleBriefingCard() {
             const card = document.getElementById('talking-points-panel');
-            if (card.classList.contains('hidden')) return;
+            if (card.classList.contains('hidden') || briefingCardFlipping) return;
 
             const agendaFace = document.getElementById('agenda-face');
             const capabilitiesFace = document.getElementById('capabilities-face');
             const showingAgenda = !agendaFace.classList.contains('hidden');
-            agendaFace.classList.toggle('hidden', showingAgenda);
-            capabilitiesFace.classList.toggle('hidden', !showingAgenda);
+            briefingCardFlipping = true;
+            card.classList.add('flipping');
+
+            setTimeout(() => {
+                agendaFace.classList.toggle('hidden', showingAgenda);
+                capabilitiesFace.classList.toggle('hidden', !showingAgenda);
+            }, 300);
+
+            setTimeout(() => {
+                card.classList.remove('flipping');
+                briefingCardFlipping = false;
+            }, 620);
         }
 
         // --- HTML CONTENT RENDERER ---
