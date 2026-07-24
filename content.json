@@ -17,19 +17,19 @@
       "title": "Tenaska",
       "subtitle": "Energy Operations Network Capabilities",
       "placeholder": "Load IP_Network_Map.svg",
-      "file": "mutual.png",
+      "file": "tenaska.png",
       "type": "map",
       "talkingPoints": [
-        "Omaha-based fiber adjacency to support Tenaska's headquarters, executive operations and regional energy leadership.",
-        "Private, diverse transport paths for trading, SCADA/EMS, settlement, reporting and customer portal workflows.",
-        "Low-latency connectivity into key data centers, cloud platforms and market systems used by distributed energy teams.",
-        "Scalable 100% fiber capacity up to 400G to support large-load customers, data-center growth and project development.",
-        "Local account support backed by 24/7 network monitoring for always-on power, gas and generation operations."
+        "Omaha-based fiber adjacency for a $15.6B energy company coordinating marketing, generation, finance and development from headquarters.",
+        "Private, diverse transport paths for 24/7 trading, scheduling, settlement, SCADA/EMS and risk management workflows.",
+        "Low-latency connectivity into key data centers, cloud platforms and market systems supporting 18,500+ MW of managed load.",
+        "Scalable 100% fiber capacity up to 400G for large-load customers and Tenaska's 33,000 MW energy project pipeline.",
+        "Local account support backed by 24/7 monitoring for always-on power, gas, generation and customer portal operations."
       ],
       "stats": [
-        { "label": "Omaha Metro Fiber", "value": "800+ Miles", "color": "text-gpc-green" },
-        { "label": "Core Capacity", "value": "400G Standard", "color": "text-gpc-blue" },
-        { "label": "Operations Support", "value": "24/7 Monitoring", "color": "text-gpc-orange" }
+        { "label": "Managed Generation", "value": "6,622 MW", "color": "text-gpc-green" },
+        { "label": "Load Managed", "value": "18,500+ MW", "color": "text-gpc-blue" },
+        { "label": "Development Pipeline", "value": "33,000 MW", "color": "text-gpc-orange" }
       ]
     },
     "national": {
