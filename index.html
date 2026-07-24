@@ -33,11 +33,6 @@
         
         .key { transition: all 0.1s; cursor: pointer; user-select: none; }
         .key:active { transform: scale(0.95); background-color: #CBD5E1; }
-        .flip-card { perspective: 1800px; }
-        .flip-card-inner { transition: transform 0.6s ease; transform-style: preserve-3d; }
-        .flip-card.is-flipped .flip-card-inner { transform: rotateY(180deg); }
-        .flip-card-face { backface-visibility: hidden; -webkit-backface-visibility: hidden; }
-        .flip-card-back { transform: rotateY(180deg); }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
         .screensaver-dismissed { visibility: hidden; pointer-events: none; }
@@ -148,22 +143,20 @@
 
             </div>
 
-            <div id="talking-points-panel" onclick="toggleBriefingCard()" class="flip-card absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden w-[860px] h-[560px] cursor-pointer">
-                <div class="flip-card-inner relative h-full w-full">
-                    <div class="flip-card-face absolute inset-0 rounded-3xl p-10 shadow-2xl border border-white/50 bg-white/85 backdrop-blur-xl">
-                        <div class="flex items-center justify-between mb-8">
-                            <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Meeting Agenda</h4>
-                            <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Click for capabilities</span>
-                        </div>
-                        <ol id="agenda-list" class="list-decimal list-outside pl-8 space-y-5 text-slate-800 text-2xl leading-snug font-medium [&_li]:pl-2"></ol>
+            <div id="talking-points-panel" onclick="toggleBriefingCard()" class="absolute left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 z-20 hidden w-[860px] h-[560px] cursor-pointer rounded-3xl p-10 shadow-2xl border border-white/40 bg-white/60 backdrop-blur-sm transition-opacity duration-300">
+                <div id="agenda-face">
+                    <div class="flex items-center justify-between mb-8">
+                        <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Meeting Agenda</h4>
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-500">Click for capabilities</span>
                     </div>
-                    <div class="flip-card-face flip-card-back absolute inset-0 rounded-3xl p-10 shadow-2xl border border-white/50 bg-white/85 backdrop-blur-xl">
-                        <div class="flex items-center justify-between mb-8">
-                            <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Core Capabilities</h4>
-                            <span class="text-xs font-bold uppercase tracking-widest text-slate-400">Click for agenda</span>
-                        </div>
-                        <ul id="talking-points-list" class="list-disc list-outside pl-8 space-y-5 text-slate-800 text-xl leading-snug font-medium [&_li]:pl-2"></ul>
+                    <ol id="agenda-list" class="list-decimal list-outside pl-8 space-y-5 text-slate-800 text-2xl leading-snug font-medium [&_li]:pl-2"></ol>
+                </div>
+                <div id="capabilities-face" class="hidden">
+                    <div class="flex items-center justify-between mb-8">
+                        <h4 class="text-gpc-orange font-bold text-xl uppercase tracking-widest">Core Capabilities</h4>
+                        <span class="text-xs font-bold uppercase tracking-widest text-slate-500">Click for agenda</span>
                     </div>
+                    <ul id="talking-points-list" class="list-disc list-outside pl-8 space-y-5 text-slate-800 text-xl leading-snug font-medium [&_li]:pl-2"></ul>
                 </div>
             </div>
 
@@ -311,6 +304,8 @@
             const talkingPointsPanel = document.getElementById('talking-points-panel');
             const talkingPointsList = document.getElementById('talking-points-list');
             const agendaList = document.getElementById('agenda-list');
+            const agendaFace = document.getElementById('agenda-face');
+            const capabilitiesFace = document.getElementById('capabilities-face');
 
             if (data.type === 'map') {
                 htmlLayer.classList.add('hidden');
@@ -335,7 +330,8 @@
                 const talkingPoints = Array.isArray(data.talkingPoints) ? data.talkingPoints : [];
                 if (agendaItems.length > 0 || talkingPoints.length > 0) {
                     talkingPointsPanel.classList.remove('hidden');
-                    talkingPointsPanel.classList.remove('is-flipped');
+                    agendaFace.classList.remove('hidden');
+                    capabilitiesFace.classList.add('hidden');
                     agendaList.innerHTML = agendaItems.map(pt => `<li>${pt}</li>`).join('');
                     talkingPointsList.innerHTML = talkingPoints.map(pt => `<li>${pt}</li>`).join('');
                 } else {
@@ -353,7 +349,13 @@
 
         function toggleBriefingCard() {
             const card = document.getElementById('talking-points-panel');
-            if (!card.classList.contains('hidden')) card.classList.toggle('is-flipped');
+            if (card.classList.contains('hidden')) return;
+
+            const agendaFace = document.getElementById('agenda-face');
+            const capabilitiesFace = document.getElementById('capabilities-face');
+            const showingAgenda = !agendaFace.classList.contains('hidden');
+            agendaFace.classList.toggle('hidden', showingAgenda);
+            capabilitiesFace.classList.toggle('hidden', !showingAgenda);
         }
 
         // --- HTML CONTENT RENDERER ---
