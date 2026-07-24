@@ -79,10 +79,20 @@
         .capability-card:hover .capability-front::after, .capability-card:hover .capability-front::before { opacity: 1; }
         .capability-card:hover .capability-front::before { transform: translateX(0); }
         .capability-body {
+            position: relative;
             background-image:
-                radial-gradient(circle at 20px 20px, rgba(153, 26, 56, 0.08) 1px, transparent 1.5px),
-                linear-gradient(135deg, rgba(153, 26, 56, 0.06), transparent 42%);
-            background-size: 26px 26px, 100% 100%;
+                linear-gradient(30deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
+                linear-gradient(150deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
+                linear-gradient(30deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
+                linear-gradient(150deg, rgba(153, 26, 56, 0.08) 12%, transparent 12.5%, transparent 87%, rgba(153, 26, 56, 0.08) 87.5%),
+                linear-gradient(60deg, rgba(153, 26, 56, 0.10) 25%, transparent 25.5%, transparent 75%, rgba(153, 26, 56, 0.10) 75%, rgba(153, 26, 56, 0.10)),
+                linear-gradient(60deg, rgba(153, 26, 56, 0.10) 25%, transparent 25.5%, transparent 75%, rgba(153, 26, 56, 0.10) 75%, rgba(153, 26, 56, 0.10));
+            background-position: 0 0, 0 0, 36px 63px, 36px 63px, 0 0, 36px 63px;
+            background-size: 72px 126px;
+        }
+        .capability-body > * {
+            position: relative;
+            z-index: 1;
         }
         
         /* When dismissed, screensaver stays in layout so grid animation never stops */
@@ -452,6 +462,18 @@
             card.classList.toggle('is-revealed');
         }
 
+        function scheduleAgendaReveal() {
+            const agendaHero = document.getElementById('agenda-hero');
+            const screensaver = document.getElementById('screensaver');
+            if (!agendaHero || !screensaver || !screensaver.classList.contains('screensaver-dismissed')) return;
+
+            if (agendaRevealTimer) clearTimeout(agendaRevealTimer);
+            agendaRevealTimer = setTimeout(() => {
+                agendaHero.classList.add('is-revealed');
+                agendaRevealTimer = null;
+            }, 3000);
+        }
+
         // --- HTML CONTENT RENDERER ---
         function renderHTMLContent(viewId, container) {
             let html = '';
@@ -476,10 +498,7 @@
                         </div>
                     </div>
                 `;
-                agendaRevealTimer = setTimeout(() => {
-                    const agendaHero = document.getElementById('agenda-hero');
-                    if (agendaHero) agendaHero.classList.add('is-revealed');
-                }, 3000);
+                scheduleAgendaReveal();
             }
             else if (viewId === 'core-capabilities' && pageContent['core-capabilities']) {
                 const content = pageContent['core-capabilities'];
@@ -496,7 +515,7 @@
                                         </div>
                                         <div class="capability-face capability-back absolute inset-0 overflow-hidden rounded-3xl bg-white text-[#991a38] flex flex-col">
                                             <div class="bg-[#991a38] h-32 px-8 flex items-center justify-center border-b-4 border-black">
-                                                <h3 class="text-black text-2xl font-black uppercase tracking-widest leading-tight text-center">${card.title || ''}</h3>
+                                                <h3 class="text-white text-2xl font-black uppercase tracking-widest leading-tight text-center">${card.title || ''}</h3>
                                             </div>
                                             <div class="capability-body flex-1 px-8 pb-8 pt-12">
                                             ${Array.isArray(card.points) ? `
@@ -628,7 +647,10 @@
                 if (!ss.classList.contains('screensaver-dismissed')) {
                     ss.classList.remove('opacity-100');
                     ss.classList.add('opacity-0');
-                    setTimeout(() => ss.classList.add('screensaver-dismissed'), 1100);
+                    setTimeout(() => {
+                        ss.classList.add('screensaver-dismissed');
+                        scheduleAgendaReveal();
+                    }, 1100);
                 }
             };
             
