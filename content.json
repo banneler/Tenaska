@@ -59,7 +59,7 @@
     },
     "layer2": {
       "id": "layer2",
-      "title": "Transport & Ethernet",
+      "title": "Core Transport",
       "subtitle": "High-Capacity Redundant Architecture",
       "placeholder": "Load Layer_2_Rings.svg",
       "file": "layer_2.png",
