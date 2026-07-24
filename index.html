@@ -490,12 +490,12 @@
                                             <img src="${ASSET_BASE + image}" alt="${card.title || `Capability ${index + 1}`}" class="absolute inset-0 w-full h-full object-cover">
                                         </div>
                                         <div class="capability-face capability-back absolute inset-0 overflow-hidden rounded-3xl bg-white text-[#991a38] flex flex-col">
-                                            <div class="bg-black h-32 px-8 flex items-center border-b-4 border-[#991a38]">
-                                                <h3 class="text-[#991a38] text-2xl font-black uppercase tracking-widest leading-tight">${card.title || ''}</h3>
+                                            <div class="bg-[#991a38] h-32 px-8 flex items-center border-b-4 border-black">
+                                                <h3 class="text-black text-2xl font-black uppercase tracking-widest leading-tight">${card.title || ''}</h3>
                                             </div>
                                             <div class="flex-1 p-8">
                                             ${Array.isArray(card.points) ? `
-                                                <ul class="list-disc list-outside pl-6 space-y-4 text-lg leading-snug font-bold text-[#991a38] [&_li]:pl-1">
+                                                <ul class="list-disc list-outside pl-6 space-y-4 text-xl leading-snug font-bold text-[#991a38] [&_li]:pl-1">
                                                     ${card.points.map(point => `<li>${point}</li>`).join('')}
                                                 </ul>
                                             ` : `<p class="text-2xl leading-snug font-bold text-[#991a38]">${card.desc || ''}</p>`}
