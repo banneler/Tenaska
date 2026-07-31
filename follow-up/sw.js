@@ -1,4 +1,4 @@
-const CACHE_VERSION = 'tenaska-follow-up-v20260731-1';
+const CACHE_VERSION = 'tenaska-follow-up-v20260731-2';
 const APP_SHELL = [
   './',
   './index.html',

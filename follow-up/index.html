@@ -251,6 +251,7 @@
         // --- INITIALIZATION ---
         async function init() {
             registerServiceWorker();
+            trackFollowUpOpen();
             startClock();
             setupScreensaver();
             setupFullscreen();
@@ -264,6 +265,29 @@
             buildNavigation();
             const order = getFilteredNavOrder();
             if(order.length > 0) updateView(order[0]);
+        }
+
+        function trackFollowUpOpen() {
+            try {
+                const key = 'tenaska-follow-up-tracked';
+                if (sessionStorage.getItem(key)) return;
+                sessionStorage.setItem(key, '1');
+
+                const payload = JSON.stringify({
+                    path: window.location.pathname + window.location.search,
+                    referrer: document.referrer || '',
+                    userAgent: navigator.userAgent || ''
+                });
+
+                fetch('/api/track-open', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: payload,
+                    keepalive: true
+                }).catch(() => {});
+            } catch (error) {
+                // Tracking should never block the presentation.
+            }
         }
 
         function registerServiceWorker() {
