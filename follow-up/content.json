@@ -241,10 +241,10 @@
     },
     "agenda": {
       "heroImages": [
-        "hero_1.jpg",
-        "hero_2.jpg",
-        "hero_3.jpg",
-        "hero_4.jpg"
+        "hero_1.png",
+        "hero_2.png",
+        "hero_3.png",
+        "hero_4.png"
       ],
       "headline": "Thank you for the conversation. Here are the next steps.",
       "items": [
@@ -258,10 +258,10 @@
     },
     "core-capabilities": {
       "heroImages": [
-        "hero_1.jpg",
-        "hero_2.jpg",
-        "hero_3.jpg",
-        "hero_4.jpg"
+        "hero_1.png",
+        "hero_2.png",
+        "hero_3.png",
+        "hero_4.png"
       ],
       "cards": [
         {
